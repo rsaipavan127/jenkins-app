@@ -47,7 +47,7 @@ pipeline {
                 echo "running playright test"
                 sh '''
                   npm install serve
-                  node_modules/.bin/serve -s build and &
+                  node_modules/.bin/serve -s build  &
                   sleep 10
                   npm playwright test
                 '''
