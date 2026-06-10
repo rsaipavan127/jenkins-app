@@ -5,25 +5,25 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
-            steps {
-                echo 'starting build'
-                sh'''
-                  npm --version
-                  node --version
-                  ls -la
-                  npm ci
-                  npm run build
-                  ls -la
-                '''
-            }
-        }
+        // stage('Build') {
+        //     agent {
+        //         docker {
+        //             image 'node:18-alpine'
+        //             reuseNode true
+        //         }
+        //     }
+        //     steps {
+        //         echo 'starting build'
+        //         sh'''
+        //           npm --version
+        //           node --version
+        //           ls -la
+        //           npm ci
+        //           npm run build
+        //           ls -la
+        //         '''
+        //     }
+        // }
         stage("parallel-test"){
             parallel{
                  stage("Test"){
@@ -87,7 +87,7 @@ pipeline {
                 sh'''
                   npm install netlify-cli@20.1.1
                   node_modules/.bin/netlify --version
-                  echo 'deploying to site with ID $NETLIFY_SITE_ID'
+                  echo "deploying to site with ID $NETLIFY_SITE_ID"
 
                 '''
             }
