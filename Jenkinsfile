@@ -97,6 +97,31 @@ pipeline {
             }
         }
 
+         stage("E2E prod"){
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+            environment{
+                CI_ENVIRONMENT_URL="https://eloquent-beijinho-e6248e.netlify.app/"
+            }
+            steps{
+                echo "running playright test"
+                sh '''
+                 
+                  npx playwright test --reporter=html
+                '''
+            }
+            post{
+                    always {
+                        
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'HTML e2e Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+                }
+        }
+
        
     }
 
